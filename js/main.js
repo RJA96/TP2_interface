@@ -7,7 +7,5 @@ function punto1(){
 
 function imprimeXY (event){
     console.log(event.screenX);
-    console.log(event.screenY);
-    
-    
+    console.log(event.screenY);   
 }
