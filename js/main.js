@@ -1,3 +1,4 @@
+"use strict"
 import { Linea } from "./linea.js";
 import { Vertice } from "./vertice.js";
 let poligono = [];
@@ -18,10 +19,20 @@ document.querySelector("#unir").addEventListener("click",function(){
         let c = centro();
         let va = new Vertice(c.posX,c.posY);
         dibujar(va.posX,va.posY,50)
-        
-              
+        poligono.push(va);
     }
 })
+
+document.querySelector("#canv").addEventListener("mousedown", function(){
+    if(adentro()){
+
+    } 
+})
+//la cuenta devuelva el radio del Mouse que debe ser menor a la radio del circulo.
+function adentro(e) {
+        
+    Math.sqrt(2)
+}
 function centro(){
     let x=0;
     let y=0;
