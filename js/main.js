@@ -16,6 +16,7 @@ document.querySelector("#canv").addEventListener("click", function(){
 })
 
 document.querySelector("#unir").addEventListener("click",function(){
+  //  document.querySelector("#canv").removeEventListener("click",f)
     if (ps[indice].getcantvertices()>2){
         ps[indice].unir("#ffff00",true)
         let centro = ps[indice].getcentro();        
@@ -24,24 +25,25 @@ document.querySelector("#unir").addEventListener("click",function(){
         ps[indice].setCentro(c);
         indice++;
     }
+    document.querySelector("#canv").addEventListener("mousedown", function(event){
+        event.preventDefault()
+        for (let i = 0; i < ps.length; i++) {
+            if (ps[i].centro != null) {
+                if( ps[i].centro.meclickearon(event)==true){
+                    console.log("mover");
+                }   
+            }
+           
+        }
+    })
+    document.querySelector("#canv").addEventListener("mouseup", function(event){
+        event.preventDefault()
+        console.log("arriba");
+        
+    })
 })
 
-document.querySelector("#canv").addEventListener("mousedown", function(event){
-    event.preventDefault()
-    for (let i = 0; i < ps.length; i++) {
-        if (ps[i].centro != null) {
-            if( ps[i].centro.meclickearon(event)==true){
-                console.log("mover");
-            }   
-        }
-       
-    }
-})
-document.querySelector("#canv").addEventListener("mouseup", function(event){
-    event.preventDefault()
-    console.log("arriba");
-    
-})
+
 
 
 
