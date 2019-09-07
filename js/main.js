@@ -1,79 +1,51 @@
-"use strict"
-import { Linea } from "./linea.js";
-import { Vertice } from "./vertice.js";
-let poligono = [];
+import {Circulo} from "./circulo.js"
+import {Poligono} from "./poligono.js"
+let ps = [];
+let indice = 0;
 document.querySelector("#canv").addEventListener("click", function(){
     imprimeXY(event);
-    let v = crearCirculo(event);
-    dibujar (v.posX,v.posY,50)
-    poligono.push(v);
-    if (poligono.length>1){
-        let l = new Linea (poligono[poligono.length-2],poligono[poligono.length-1]);
-        dibujarLinea(l);        
+    if (ps[indice]==null){
+        ps[indice] = new Poligono();
     }
+    let c = new Circulo(event.layerX,event.layerY,50,"#ff0000");;
+    c.drow;
+    ps[indice].setCirculo(c);
+    console.log(ps[indice]);
+    c.drow();
+    ps[indice].unir("#ffff00");
 })
+
 document.querySelector("#unir").addEventListener("click",function(){
-    if (poligono.length>2){
-        let l = new Linea (poligono[0],poligono[poligono.length-1]);
-        dibujarLinea(l);
-        let c = centro();
-        let va = new Vertice(c.posX,c.posY);
-        dibujar(va.posX,va.posY,50)
-        poligono.push(va);
+    if (ps[indice].getcantvertices()>2){
+        ps[indice].unir("#ffff00",true)
+        let centro = ps[indice].getcentro();        
+        let c = new Circulo(centro.posX,centro.posY,30,"#ff0000")
+        c.drow();
+        ps[indice].setCentro(c);
+        indice++;
     }
 })
 
-document.querySelector("#canv").addEventListener("mousedown", function(){
-    if(adentro()){
-
-    } 
+document.querySelector("#canv").addEventListener("mousedown", function(event){
+    event.preventDefault()
+    for (let i = 0; i < ps.length; i++) {
+        if (ps[i].centro != null) {
+            if( ps[i].centro.meclickearon(event)==true){
+                console.log("mover");
+            }   
+        }
+       
+    }
 })
-//la cuenta devuelva el radio del Mouse que debe ser menor a la radio del circulo.
-function adentro(e) {
-        
-    Math.sqrt(2)
-}
-function centro(){
-    let x=0;
-    let y=0;
-    for (let i = 0; i < poligono.length; i++) {
-        let xaux = poligono[i].posX;
-        let yaux = poligono[i].posY;
-        x = x+xaux;
-        y = y+yaux;
-    }
-    x = x/poligono.length;
-    y = y/poligono.length;
-    return {
-        posX : x,
-        posY: y
-    }
-}
-function crearCirculo(e){
-    let c = new Vertice(e.layerX,e.layerY);
-    return c;    
+document.querySelector("#canv").addEventListener("mouseup", function(event){
+    event.preventDefault()
+    console.log("arriba");
     
-}
+})
+
+
+
 function imprimeXY (e){
     console.log(e.layerX);
     console.log(e.layerY);   
-}
-
-function dibujar(x,y,radio){
-    let canvas = document.getElementById('canv');
-    let ctx = canvas.getContext("2d");
-    ctx.beginPath();
-    ctx.strokeStyle = "#000000"
-    ctx.arc(x, y, radio, 0, 2 * Math.PI);
-    ctx.stroke();
-}
-
-function dibujarLinea (L){
-    let canvas = document.getElementById('canv');
-    let ctx = canvas.getContext("2d");
-    ctx.beginPath();
-    ctx.strokeStyle = "#ffff00"
-    ctx.moveTo(L.vertice1.posX,L.vertice1.posY);
-    ctx.lineTo(L.vertice2.posX,L.vertice2.posY)
-    ctx.stroke();
 }
