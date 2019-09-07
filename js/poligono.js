@@ -54,4 +54,9 @@ export class Poligono{
             posY: y
         }
     }
+    moverpoligono(e){
+        for (let i = 0; i < this.circulos.length; i++) {
+            this.circulos[i].mover
+        }
+    }
 }

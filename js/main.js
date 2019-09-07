@@ -2,7 +2,7 @@ import {Circulo} from "./circulo.js"
 import {Poligono} from "./poligono.js"
 let ps = [];
 let indice = 0;
-document.querySelector("#canv").addEventListener("click", function(){
+let fn_create = function (){
     imprimeXY(event);
     if (ps[indice]==null){
         ps[indice] = new Poligono();
@@ -13,10 +13,11 @@ document.querySelector("#canv").addEventListener("click", function(){
     console.log(ps[indice]);
     c.drow();
     ps[indice].unir("#ffff00");
-})
+}
+document.querySelector("#canv").addEventListener("click", fn_create)
 
 document.querySelector("#unir").addEventListener("click",function(){
-  //  document.querySelector("#canv").removeEventListener("click",f)
+    document.querySelector("#canv").removeEventListener("click",fn_create)
     if (ps[indice].getcantvertices()>2){
         ps[indice].unir("#ffff00",true)
         let centro = ps[indice].getcentro();        
@@ -26,7 +27,6 @@ document.querySelector("#unir").addEventListener("click",function(){
         indice++;
     }
     document.querySelector("#canv").addEventListener("mousedown", function(event){
-        event.preventDefault()
         for (let i = 0; i < ps.length; i++) {
             if (ps[i].centro != null) {
                 if( ps[i].centro.meclickearon(event)==true){
@@ -37,7 +37,6 @@ document.querySelector("#unir").addEventListener("click",function(){
         }
     })
     document.querySelector("#canv").addEventListener("mouseup", function(event){
-        event.preventDefault()
         console.log("arriba");
         
     })

@@ -22,4 +22,9 @@ export class Circulo{
         if (d1<this.radio) return true;
         else return false;
     }
+    mover(x,y){
+       let auxX =  x-this.x;
+       let auxY = y-this.y;
+        this.cambiarpos(auxX+this.x,auxY+this.y)
+    }
 }
