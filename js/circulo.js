@@ -6,10 +6,10 @@ export class Circulo{
         this.color=color;
     }
     cambiarpos(x,y){
-        this.x;
-        this.y;
+        this.x=x;
+        this.y=y;
     }
-    drow(){
+    draw(){
         let canvas = document.getElementById('canv');
         let ctx = canvas.getContext("2d");
         ctx.beginPath();
@@ -23,8 +23,7 @@ export class Circulo{
         else return false;
     }
     mover(x,y){
-       let auxX =  x-this.x;
-       let auxY = y-this.y;
-        this.cambiarpos(auxX+this.x,auxY+this.y)
+        this.x += x;
+       this.y += y;
     }
 }
