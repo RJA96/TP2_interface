@@ -5,50 +5,51 @@ import {
     Poligono
 } from "./poligono.js"
 //usar booleans para sacar los remove event list
-let ps = [];
+let poligonos = [];
 let indice = 0;
 let active = false;
 const canvas = document.querySelector("#canv");
 const ctx= canvas.getContext("2d");
 let fn_create = function () {
     imprimeXY(event);
-    if (ps[indice] == null) {
-        ps[indice] = new Poligono();
+    if (poligonos[indice] == null) {
+        poligonos[indice] = new Poligono();
     }
-    let c = new Circulo(event.layerX, event.layerY, 50, "#ff0000");;
-    c.draw;
-    ps[indice].setCirculo(c);
-    c.draw();
-    ps[indice].unir("#ffff00");
+    let c = new Circulo(event.layerX, event.layerY, 10, "#ff0000");;
+    poligonos[indice].setCirculo(c);
+    poligonos[indice].drawlastcirculo();
+    poligonos[indice].unir("#ffff00");
 }
 
-let fn_move = 
 canvas.addEventListener("click", fn_create)
 
 document.querySelector("#unir").addEventListener("click", function () {
+    active = true;
     canvas.removeEventListener("click", fn_create)
-    if (ps[indice].getcantvertices() > 2) {
-        ps[indice].unir("#ffff00", true)
-        let centro = ps[indice].getcentro();
-        let c = new Circulo(centro.posX, centro.posY, 30, "#ff0000")
+    if (poligonos[indice].getcantvertices() > 2) {
+        poligonos[indice].unir("#ffff00", true)
+        let centro = poligonos[indice].getcentro();
+        let c = new Circulo(centro.posX, centro.posY, 7, "#008000")
         c.draw();
-        ps[indice].setCentro(c);
+        poligonos[indice].setCentro(c);
         indice++;
     }
 })
 canvas.addEventListener("mousedown", function () {
-    active = true;
-    
-});
-canvas.addEventListener("mousemove", function () { 
-    let poliactual = get_poligono(event);
-         
-    if ((active==true)&&(poliactual!=null)){
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        poliactual.mover(event);
+    if (active) {
+        var poliactual = get_poligono(event).P;
     }
+    
+    canvas.addEventListener("mousemove", function () { 
+        //aca hay que agregar get circulo con una funcion circulo/poligono que si no es el centro lo traiga
+        if ((active==true)&&(poliactual!=null)){
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            poliactual.mover(event);
+        }
+    
+    })
+});
 
-})
 
 canvas.addEventListener("mouseup", function (event) {
     active = false;
@@ -56,16 +57,17 @@ canvas.addEventListener("mouseup", function (event) {
 
 function get_poligono(event) {
     let poligonoaux;
-    for (let i = 0; i < ps.length; i++) {
-        if (ps[i].centro != null) {
-            if (ps[i].centro.meclickearon(event) == true) {
-                poligonoaux = ps[i];
+    for (let i = 0; i < poligonos.length; i++) {
+        if (poligonos[i].centro != null) {
+            if (poligonos[i].centro.meclickearon(event.layerX,event.layerY) == true) {
+                return {P:poligonos[i]
+                }
             }
+            if (//aca va si lo clikearon a uno que pertenece al poligono)
         }
+
     }
-    if (poligonoaux != null) {
-        return poligonoaux
-    }
+   // return poligonoaux
 }
 
 

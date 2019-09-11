@@ -17,12 +17,16 @@ export class Circulo{
         ctx.arc(this.x, this.y, this.radio, 0, 2 * Math.PI);
         ctx.stroke();
     }
-    meclickearon(e){
-        let d1 = Math.sqrt(Math.pow(e.layerX-this.x,2)+Math.pow(e.layerY-this.y,2))
+    mover(x,y){
+        this.x = x;
+        this.y = y;
+    }
+    meclickearon(posX,posY){
+        let d1 = Math.sqrt(Math.pow(posX-this.x,2)+Math.pow(posY-this.y,2))
         if (d1<this.radio) return true;
         else return false;
     }
-    mover(x,y){
+    mover_con_figura(x,y){
         this.x += x;
        this.y += y;
     }
