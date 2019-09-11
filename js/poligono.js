@@ -1,6 +1,8 @@
 import {
     Circulo
 } from "./circulo.js"
+let canvas = document.getElementById('canv');
+let ctx = canvas.getContext("2d");
 export class Poligono {
     constructor() {
         this.circulos = []
@@ -68,20 +70,44 @@ export class Poligono {
             posY: y
         }
     }
-    mover(e) {
-        this.centro.draw()
+    mover(posX,posY) {
         for (let i = 0; i < this.circulos.length; i++) {
-            this.circulos[i].mover_con_figura(e.layerX - this.centro.x, e.layerY - this.centro.y)
-            this.circulos[i].draw()
+            this.circulos[i].mover_con_figura(posX - this.centro.x, posY - this.centro.y)
         }
-        this.centro.cambiarpos(e.layerX, e.layerY)
-        this.unirtodos("#ffff00");
-
+        this.centro.cambiarpos(posX, posY)
     }
     get_circulo_actual(posX,posY){
-        for (let i = 0; o < this.circulos.length; i++) {
-            this.circulos[i].meclickearon(posX,posY)
-            
+        for (let i = 0; i < this.circulos.length; i++) {
+            if (this.circulos[i].meclickearon(posX,posY)){
+                return {
+                    encontrado:true,
+                    indice:i
+                }
+            }
+        }
+        return {
+            encontrado:false,
+            indice: null
+        }
+    }
+    moverVertice(posX, posY){
+        let indice = this.get_circulo_actual(posX,posY).indice;
+        if (indice != null){
+            this.circulos[indice].mover(posX, posY);
+            this.centro.mover(this.getcentro().posX,this.getcentro().posY);
+        }        
+    }
+    drawPoligono(){
+        this.centro.draw()
+        for (let i = 0; i < this.circulos.length; i++) {
+            this.circulos[i].draw()
+        }
+        this.unirtodos("#ffff00");
+    }
+    eliminarpunto(posX, posY){
+        let indice = get_circulo_actual(posX,posY).indice;
+        if (indice != null){
+            this.circulos.splice(indice, 1)
         }
     }
 }

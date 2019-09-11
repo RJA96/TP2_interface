@@ -20,3 +20,9 @@ iframe{
 p{
     color: #BD5F32;
 }
+#crear{
+display: none;
+}
+#unir{
+    display: none;
+}

@@ -21,6 +21,9 @@ export class Circulo{
         this.x = x;
         this.y = y;
     }
+    eliminar(){
+        this.delete;
+    }
     meclickearon(posX,posY){
         let d1 = Math.sqrt(Math.pow(posX-this.x,2)+Math.pow(posY-this.y,2))
         if (d1<this.radio) return true;

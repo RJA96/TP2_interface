@@ -8,6 +8,8 @@ import {
 let poligonos = [];
 let indice = 0;
 let active = false;
+let moviendo = true;
+let poliactual;
 const canvas = document.querySelector("#canv");
 const ctx= canvas.getContext("2d");
 let fn_create = function () {
@@ -19,10 +21,18 @@ let fn_create = function () {
     poligonos[indice].setCirculo(c);
     poligonos[indice].drawlastcirculo();
     poligonos[indice].unir("#ffff00");
+    if (poligonos[indice].getcantvertices() > 2) {
+        document.querySelector("#unir").style.display = "block";
+
+    }
 }
 
 canvas.addEventListener("click", fn_create)
-
+document.querySelector("#crear").addEventListener("click",function () {
+    canvas.addEventListener("click", fn_create)
+    document.querySelector("#crear").style.display = "none";
+    document.querySelector("#unir").style.display = "block";
+})
 document.querySelector("#unir").addEventListener("click", function () {
     active = true;
     canvas.removeEventListener("click", fn_create)
@@ -34,40 +44,82 @@ document.querySelector("#unir").addEventListener("click", function () {
         poligonos[indice].setCentro(c);
         indice++;
     }
+    document.querySelector("#unir").style.display = "none";
+    document.querySelector("#crear").style.display = "block";
 })
 canvas.addEventListener("mousedown", function () {
     if (active) {
-        var poliactual = get_poligono(event).P;
+        poliactual = get_poligono(event);        
+        if (poliactual.encontrado) {
+            moviendo = true;
+        }
+        
     }
     
     canvas.addEventListener("mousemove", function () { 
-        //aca hay que agregar get circulo con una funcion circulo/poligono que si no es el centro lo traiga
-        if ((active==true)&&(poliactual!=null)){
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            poliactual.mover(event);
+        if ((moviendo==true)&&(active==true)){
+            if (poliactual.circ == false) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                poliactual.P.mover(event.layerX, event.layerY);
+                for (let i = 0; i < poligonos.length; i++) {
+                    poligonos[i].drawPoligono();
+                }
+            }
+            else{
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                poliactual.P.moverVertice(event.layerX, event.layerY)
+                for (let i = 0; i < poligonos.length; i++) {
+                    poligonos[i].drawPoligono();
+                }
+            }
+            
         }
-    
     })
 });
-
+canvas.addEventListener("dblclick", function(){
+    if (active) {
+        console.log("dolbe");
+        
+        poliactual = get_poligono(event);
+        if (poliactual.encontrado){
+            if (poliactual.circ == true){
+                poliactual.P.eliminarpunto(event.layerX, event.layerY);
+                for (let i = 0; i < poligonos.length; i++) {
+                    poligonos[i].drawPoligono();
+                }
+            }
+        }
+    }
+    
+})
 
 canvas.addEventListener("mouseup", function (event) {
-    active = false;
+    moviendo=false;
 })
 
 function get_poligono(event) {
-    let poligonoaux;
     for (let i = 0; i < poligonos.length; i++) {
         if (poligonos[i].centro != null) {
             if (poligonos[i].centro.meclickearon(event.layerX,event.layerY) == true) {
-                return {P:poligonos[i]
-                }
-            }
-            if (//aca va si lo clikearon a uno que pertenece al poligono)
-        }
+                return {
+                    encontrado:true,
+                    P:poligonos[i],
+                    circ:false
 
+                }
+
+            }
+            if (poligonos[i].get_circulo_actual(event.layerX,event.layerY).encontrado){
+                return{encontrado:true,
+                    P:poligonos[i],
+                    circ:poligonos[i].get_circulo_actual(event.layerX,event.layerY).encontrado
+                };
+                 
+            }
+        }
     }
-   // return poligonoaux
+    return{encontrado:false,
+    };
 }
 
 
