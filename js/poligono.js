@@ -109,5 +109,10 @@ export class Poligono {
             this.centro.mover(this.getcentro().posX,this.getcentro().posY);
         }
     }
+    cambiarColor(dY){
+        for (let i = 0; i < this.circulos.length; i++) {
+            
+        }
+    }
 }
 //thisX += x -x centro

@@ -46,7 +46,7 @@ document.querySelector("#unir").addEventListener("click", function () {
     if (poligonos[indice].getcantvertices() > 2) {
         poligonos[indice].unir("#ffff00", true)
         let centro = poligonos[indice].getcentro();
-        let c = new Circulo(centro.posX, centro.posY, 7, "#008000")
+        let c = new Circulo(centro.posX, centro.posY, 7, "#00ff00")
         c.draw();
         poligonos[indice].setCentro(c);
         indice++;
@@ -97,16 +97,16 @@ canvas.addEventListener("dblclick", function () {
 
 })
 let verificar = false;
-document.getElementById('canv').addEventListener("keydown",function(){
-    console.log("entrs");
-    
+document.getElementById('canv').addEventListener("keydown",function(){    
     if (event.code == 'KeyC'){
         verificar = true;
-        console.log(verificar);
-        console.log("entra");
-        canvas.addEventListener("onwheel", function () {
-            event.preventDefault();
-            console.log("mouse X: "+event.deltaX);
+        
+        document.getElementById('canv').addEventListener("wheel", function () {
+            if (verificar){
+                event.preventDefault();
+                cambiarColor(event);
+            }
+           
             
         })
         
@@ -155,4 +155,15 @@ function drawPoligonos() {
 function imprimeXY(e) {
     console.log(e.layerX);
     console.log(e.layerY);
+}
+
+function cambiarColor(e) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < poligonos.length; i++) {
+        poligonos[i].cambiarColor(e.deltaY);
+    }
+    for (let i = 0; i < poligonos.length; i++) {
+        poligonos[i].drawPoligono();
+    }
+    
 }
