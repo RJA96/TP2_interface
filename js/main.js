@@ -11,7 +11,7 @@ let active = false;
 let moviendo = true;
 let poliactual;
 const canvas = document.querySelector("#canv");
-const ctx= canvas.getContext("2d");
+const ctx = canvas.getContext("2d");
 let fn_create = function () {
     imprimeXY(event);
     if (poligonos[indice] == null) {
@@ -26,16 +26,17 @@ let fn_create = function () {
 
     }
 }
-document.querySelector("#reload").addEventListener("click",function(){
+canvas.addEventListener("click", fn_create)
+document.querySelector("#reload").addEventListener("click", function () {
     poligonos = [];
     indice = 0;
     active = false;
     moviendo = true;
-    poliactual= null;
+    poliactual = null;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 })
-canvas.addEventListener("click", fn_create)
-document.querySelector("#crear").addEventListener("click",function () {
+
+document.querySelector("#crear").addEventListener("click", function () {
     canvas.addEventListener("click", fn_create)
     document.querySelector("#crear").style.display = "none";
 })
@@ -55,84 +56,82 @@ document.querySelector("#unir").addEventListener("click", function () {
 })
 canvas.addEventListener("mousedown", function () {
     if (active) {
-        poliactual = get_poligono(event);        
+        poliactual = get_poligono(event);
         if (poliactual.encontrado) {
             moviendo = true;
         }
-        
+
     }
-    
-    canvas.addEventListener("mousemove", function () { 
-        if ((moviendo==true)&&(active==true)){
+
+    canvas.addEventListener("mousemove", function () {
+        if ((moviendo == true) && (active == true)) {
             if (poliactual.circ == false) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
                 poliactual.P.mover(event.layerX, event.layerY);
-                for (let i = 0; i < poligonos.length; i++) {
-                    poligonos[i].drawPoligono();
-                }
-            }
-            else{
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawPoligonos();
+            } else {
                 poliactual.P.moverVertice(event.layerX, event.layerY)
-                for (let i = 0; i < poligonos.length; i++) {
-                    poligonos[i].drawPoligono();
-                }
+                drawPoligonos();
             }
-            
+
         }
     })
 });
-canvas.addEventListener("dblclick", function(){
+canvas.addEventListener("dblclick", function () {
     if (active) {
         console.log("dolbe");
         poliactual = get_poligono(event);
-        if (poliactual.encontrado){
-            if ((poliactual.circ == true)&&(poliactual.P.getcantvertices()>3)){
+        if (poliactual.encontrado) {
+            if ((poliactual.circ == true) && (poliactual.P.getcantvertices() > 3)) {
                 poliactual.P.eliminarpunto(event.layerX, event.layerY);
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                for (let i = 0; i < poligonos.length; i++) {
-                    poligonos[i].drawPoligono();
-                }
-            }
-            else{
+                drawPoligonos();
+            } else {
                 document.querySelector("#error").innerHTML = "El vertice que desea borrar pertenece a un poligono de menos de 4 lados"
-                setTimeout(function(){ document.querySelector("#error").innerHTML =""; }, 2000);
+                setTimeout(function () {
+                    document.querySelector("#error").innerHTML = "";
+                }, 2000);
             }
         }
     }
-    
+
 })
 
 canvas.addEventListener("mouseup", function (event) {
-    moviendo=false;
+    moviendo = false;
 })
 
 function get_poligono(event) {
     for (let i = 0; i < poligonos.length; i++) {
         if (poligonos[i].centro != null) {
-            if (poligonos[i].centro.meclickearon(event.layerX,event.layerY) == true) {
+            if (poligonos[i].centro.meclickearon(event.layerX, event.layerY) == true) {
                 return {
-                    encontrado:true,
-                    P:poligonos[i],
-                    circ:false
+                    encontrado: true,
+                    P: poligonos[i],
+                    circ: false
 
                 }
 
             }
-            if (poligonos[i].get_circulo_actual(event.layerX,event.layerY).encontrado){
-                return{encontrado:true,
-                    P:poligonos[i],
-                    circ:poligonos[i].get_circulo_actual(event.layerX,event.layerY).encontrado
+            if (poligonos[i].get_circulo_actual(event.layerX, event.layerY).encontrado) {
+                return {
+                    encontrado: true,
+                    P: poligonos[i],
+                    circ: poligonos[i].get_circulo_actual(event.layerX, event.layerY).encontrado
                 };
-                 
+
             }
         }
     }
-    return{encontrado:false,
+    return {
+        encontrado: false,
     };
 }
 
-
+function drawPoligonos() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < poligonos.length; i++) {
+        poligonos[i].drawPoligono();
+    }
+}
 
 function imprimeXY(e) {
     console.log(e.layerX);
