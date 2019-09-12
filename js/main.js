@@ -76,6 +76,23 @@ canvas.addEventListener("mousedown", function () {
         }
     })
 });
+let verificar = false;
+canvas.addEventListener("onkeydown",function(){
+    console.log("entrs");
+    
+    if (event.code == 'KeyC'){
+        verificar = true;
+        console.log(verificar);
+        console.log("entra");
+        canvas.addEventListener("onwheel", function () {
+            event.preventDefault();
+            console.log("mouse X: "+event.deltaX);
+            
+        })
+        
+        
+    }
+})
 canvas.addEventListener("dblclick", function () {
     if (active) {
         console.log("dolbe");
