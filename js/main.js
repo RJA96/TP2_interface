@@ -26,7 +26,9 @@ let fn_create = function () {
 
     }
 }
-
+document.querySelector("#reload").addEventListener("click",function(){
+    location.reload(true)
+})
 canvas.addEventListener("click", fn_create)
 document.querySelector("#crear").addEventListener("click",function () {
     canvas.addEventListener("click", fn_create)
@@ -79,14 +81,18 @@ canvas.addEventListener("mousedown", function () {
 canvas.addEventListener("dblclick", function(){
     if (active) {
         console.log("dolbe");
-        
         poliactual = get_poligono(event);
         if (poliactual.encontrado){
-            if (poliactual.circ == true){
+            if ((poliactual.circ == true)&&(poliactual.P.getcantvertices()>3)){
                 poliactual.P.eliminarpunto(event.layerX, event.layerY);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
                 for (let i = 0; i < poligonos.length; i++) {
                     poligonos[i].drawPoligono();
                 }
+            }
+            else{
+                document.querySelector("#error").innerHTML = "El vertice que desea borrar pertenece a un poligono de menos de 4 lados"
+                setTimeout(function(){ document.querySelector("#error").innerHTML =""; }, 2000);
             }
         }
     }

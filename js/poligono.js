@@ -1,6 +1,3 @@
-import {
-    Circulo
-} from "./circulo.js"
 let canvas = document.getElementById('canv');
 let ctx = canvas.getContext("2d");
 export class Poligono {
@@ -105,9 +102,11 @@ export class Poligono {
         this.unirtodos("#ffff00");
     }
     eliminarpunto(posX, posY){
-        let indice = get_circulo_actual(posX,posY).indice;
+        let indice = this.get_circulo_actual(posX,posY).indice;
         if (indice != null){
-            this.circulos.splice(indice, 1)
+            this.circulos[indice].eliminar;
+            this.circulos.splice(indice, 1);
+            this.centro.mover(this.getcentro().posX,this.getcentro().posY);
         }
     }
 }
