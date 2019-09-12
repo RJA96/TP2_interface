@@ -27,13 +27,17 @@ let fn_create = function () {
     }
 }
 document.querySelector("#reload").addEventListener("click",function(){
-    location.reload(true)
+    poligonos = [];
+    indice = 0;
+    active = false;
+    moviendo = true;
+    poliactual= null;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 })
 canvas.addEventListener("click", fn_create)
 document.querySelector("#crear").addEventListener("click",function () {
     canvas.addEventListener("click", fn_create)
     document.querySelector("#crear").style.display = "none";
-    document.querySelector("#unir").style.display = "block";
 })
 document.querySelector("#unir").addEventListener("click", function () {
     active = true;
