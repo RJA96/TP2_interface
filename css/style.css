@@ -1,28 +1,33 @@
-canvas{
+canvas {
     margin: auto;
     width: 100%;
     border: solid black;
 }
 
-body{
+body {
     background-image: url(img/90116.jpg)
 }
-.escala_grises{
+
+.escala_grises {
     display: none;
     font-weight: bolder;
-    color:red;
+    color: red;
 }
-iframe{
+
+iframe {
     margin: auto;
     width: 100%;
-    height:700px;
+    height: 700px;
 }
-p{
+
+p {
     color: #BD5F32;
 }
-#crear{
-display: none;
+
+#crear {
+    display: none;
 }
-#unir{
+
+#unir {
     display: none;
 }
