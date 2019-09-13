@@ -122,4 +122,3 @@ export class Poligono {
         this.centro.cambiarColor(rgbcentro)
     }
 }
-//thisX += x -x centro

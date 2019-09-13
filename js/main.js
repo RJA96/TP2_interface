@@ -4,7 +4,6 @@ import {
 import {
     Poligono
 } from "./poligono.js"
-//usar booleans para sacar los remove event list
 let poligonos = [];
 let indice = 0;
 let active = false;
