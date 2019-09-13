@@ -80,7 +80,6 @@ canvas.addEventListener("mousedown", function () {
 
 canvas.addEventListener("dblclick", function () {
     if (active) {
-        console.log("dolbe");
         poliactual = get_poligono(event);
         if (poliactual.encontrado) {
             if ((poliactual.circ == true) && (poliactual.P.getcantvertices() > 3)) {
@@ -100,18 +99,16 @@ let verificar = false;
 document.getElementById('canv').addEventListener("keydown",function(){    
     if (event.code == 'KeyC'){
         verificar = true;
-        
         document.getElementById('canv').addEventListener("wheel", function () {
-            if (verificar){
-                event.preventDefault();
-                cambiarColor(event);
-            }
-           
-            
+            if ((verificar)&&(active)){
+                event.preventDefault();                
+                cambiarColor(event);                
+            }  
         })
-        
-        
     }
+})
+document.getElementById('canv').addEventListener("keyup",function(){
+    verificar = false;
 })
 
 canvas.addEventListener("mouseup", function (event) {
@@ -145,10 +142,16 @@ function get_poligono(event) {
     };
 }
 
-function drawPoligonos() {
+function drawPoligonos(color) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (let i = 0; i < poligonos.length; i++) {
-        poligonos[i].drawPoligono();
+        if (color!=null){
+            poligonos[i].drawPoligono(color);
+        }
+        else{
+            poligonos[i].drawPoligono();
+        }
+        
     }
 }
 
@@ -156,14 +159,19 @@ function imprimeXY(e) {
     console.log(e.layerX);
     console.log(e.layerY);
 }
-
+let auxcolor = 255;
 function cambiarColor(e) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (let i = 0; i < poligonos.length; i++) {
-        poligonos[i].cambiarColor(e.deltaY);
+        if ((e.deltaY < 0) && ((auxcolor >= 0)&&((auxcolor <255)))) {
+            auxcolor++;
+            
+        }
+        if ((e.deltaY > 0) && ((auxcolor > 0)&&((auxcolor <=255)))){
+            auxcolor--;
+        }
+        poligonos[i].cambiarColor("rgb(" + auxcolor + ",0,0","rgb(0,"+auxcolor+",0");
     }
-    for (let i = 0; i < poligonos.length; i++) {
-        poligonos[i].drawPoligono();
-    }
+    drawPoligonos("rgb(0"+auxcolor+","+auxcolor+",0")
     
 }

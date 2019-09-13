@@ -17,6 +17,7 @@ export class Circulo{
         ctx.arc(this.x, this.y, this.radio, 0, 2 * Math.PI);
         ctx.stroke();
     }
+    
     mover(x,y){
         this.x = x;
         this.y = y;
@@ -32,5 +33,8 @@ export class Circulo{
     mover_con_figura(x,y){
         this.x += x;
        this.y += y;
+    }
+    cambiarColor(rgb){
+        this.color = rgb;
     }
 }
